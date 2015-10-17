@@ -43,21 +43,21 @@ namespace ChatLogCleaner
 {
     public partial class MainForm : Form
     {
-        private long previousSize = 0;
-        private long newSize = 0;
-        private string viewerlog = string.Empty;
-        private string cleanlog = string.Empty;
+        private long PreviousSize = 0;
+        private long NewSize = 0;
+        private string ViewerLog = string.Empty;
+        private string CleanLog = string.Empty;
 
-        private Font chatfont = null;
-        private Color forecolor = new Color();
-        private Color backcolor = new Color();
+        private Font ChatFont = null;
+        private Color Forecolor = new Color();
+        private Color Backcolor = new Color();
 
-        private OpenFileDialog LogTarget = new OpenFileDialog();
-        private SaveFileDialog LogCleaned = new SaveFileDialog();
-        private FontDialog chatfontdialog = new FontDialog();
-        private ColorDialog forecolordialog = new ColorDialog();
-        private ColorDialog backcolordialog = new ColorDialog();
-        private FileSystemWatcher watcher = new FileSystemWatcher();
+        private OpenFileDialog ViewerLogDialog = new OpenFileDialog();
+        private SaveFileDialog CleanLogDialog = new SaveFileDialog();
+        private FontDialog ChatFontDialog = new FontDialog();
+        private ColorDialog ForecolorDialog = new ColorDialog();
+        private ColorDialog BackcolorDialog = new ColorDialog();
+        private FileSystemWatcher FileWatcher = new FileSystemWatcher();
 
         private ChatDisplay frmChat = new ChatDisplay();
 
@@ -68,27 +68,23 @@ namespace ChatLogCleaner
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            watcher.Changed += new FileSystemEventHandler(watcher_OnChanged);
+            FileWatcher.Changed += new FileSystemEventHandler(FileWatcher_OnChanged);
 
-            chatfont = this.Font;
+            ChatFont = this.Font;
 
-            viewerlog = CLC.Default.Target;
-            cleanlog = CLC.Default.Cleaned;
-            forecolor = CLC.Default.Forecolor;
-            backcolor = CLC.Default.Backcolor;
-            chatfont = CLC.Default.Font;
+            ViewerLog = CLC.Default.Target;
+            CleanLog = CLC.Default.Cleaned;
+            Forecolor = CLC.Default.Forecolor;
+            Backcolor = CLC.Default.Backcolor;
+            ChatFont = CLC.Default.Font;
 
-            txtLogTargetPath.Text = viewerlog;
-            txtLogCleanedPath.Text = cleanlog;
-            txtFont.Text = chatfont.Name + ", " + Math.Round(chatfont.Size).ToString();
-            pnlBackcolor.BackColor = backcolor;
-            pnlForecolor.BackColor = forecolor;
-
-            //Console.WriteLine(txtLogTargetPath.Text.Trim('"'));
-            //if (File.Exists(txtLogTargetPath.Text.Trim('"'))) Console.WriteLine("Target Exists");
-            //Console.WriteLine(txtLogCleanedPath.Text.Trim('"'));
-            //if (File.Exists(txtLogCleanedPath.Text.Trim('"'))) Console.WriteLine("Cleaned Exists");
-            if (File.Exists(viewerlog.Trim('"')))
+            txtLogTargetPath.Text = ViewerLog;
+            txtLogCleanedPath.Text = CleanLog;
+            txtFont.Text = ChatFont.Name + ", " + Math.Round(ChatFont.Size).ToString();
+            pnlBackcolor.BackColor = Backcolor;
+            pnlForecolor.BackColor = Forecolor;
+            
+            if (File.Exists(ViewerLog.Trim('"')))
             {
                 Console.WriteLine("Loaded");
                 btnStartStop.Enabled = true;
@@ -99,26 +95,25 @@ namespace ChatLogCleaner
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnViewerLogBrowse_Click(object sender, EventArgs e)
         {
-            LogTarget.FileOk += new CancelEventHandler(LogTarget_FileOK);
-            LogTarget.ShowDialog();
-            txtLogTargetPath.Text = LogTarget.FileName.Trim('"');
-            viewerlog = txtLogTargetPath.Text;
-            CLC.Default.Target = viewerlog;
+            ViewerLogDialog.FileOk += new CancelEventHandler(LogTarget_FileOK);
+            ViewerLogDialog.ShowDialog();
+            txtLogTargetPath.Text = ViewerLogDialog.FileName.Trim('"');
+            ViewerLog = txtLogTargetPath.Text;
+            CLC.Default.Target = ViewerLog;
             CLC.Default.Save();
-            //Console.WriteLine("Filename: " + LogTarget.FileName);
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
+        private void btnCleanLogBrowse_Click(object sender, EventArgs e)
         {
-            LogCleaned.FileOk += new CancelEventHandler(LogCleaned_FileOK);
-            LogCleaned.Filter = "Log File|*.log|Text File|*.txt";
-            LogCleaned.Title = "Save Cleaned Log File";
-            LogCleaned.ShowDialog();
-            txtLogCleanedPath.Text = LogCleaned.FileName.Trim('"');
-            cleanlog = txtLogCleanedPath.Text;
-            CLC.Default.Cleaned = cleanlog;
+            CleanLogDialog.FileOk += new CancelEventHandler(LogCleaned_FileOK);
+            CleanLogDialog.Filter = "Log File|*.log|Text File|*.txt";
+            CleanLogDialog.Title = "Save Cleaned Log File";
+            CleanLogDialog.ShowDialog();
+            txtLogCleanedPath.Text = CleanLogDialog.FileName.Trim('"');
+            CleanLog = txtLogCleanedPath.Text;
+            CLC.Default.Cleaned = CleanLog;
             CLC.Default.Save();
         }
 
@@ -128,21 +123,21 @@ namespace ChatLogCleaner
             {
                 if (chkEmptyLog.Checked)
                 {
-                    if (File.Exists(cleanlog))
+                    if (File.Exists(CleanLog))
                     {
-                        File.Delete(cleanlog);
+                        File.Delete(CleanLog);
                     }
                 }
-                watcher.Path = Path.GetDirectoryName(viewerlog);
-                watcher.Filter = Path.GetFileName(viewerlog);
-                watcher.NotifyFilter = NotifyFilters.Size;
-                watcher.EnableRaisingEvents = true;
+                FileWatcher.Path = Path.GetDirectoryName(ViewerLog);
+                FileWatcher.Filter = Path.GetFileName(ViewerLog);
+                FileWatcher.NotifyFilter = NotifyFilters.Size;
+                FileWatcher.EnableRaisingEvents = true;
                 btnStartStop.Text = "Stop Cleaning";
-                previousSize = new FileInfo(viewerlog).Length;
+                PreviousSize = new FileInfo(ViewerLog).Length;
             }
             else
             {
-                watcher.EnableRaisingEvents = false;
+                FileWatcher.EnableRaisingEvents = false;
                 btnStartStop.Text = "Start Cleanings";
             }
         }
@@ -153,50 +148,50 @@ namespace ChatLogCleaner
             {
                 frmChat = new ChatDisplay();
             }
-            frmChat.LogFile = cleanlog;
-            frmChat.ChatFont = chatfont;
-            frmChat.Color = forecolor;
-            frmChat.BackColor = backcolor;
+            frmChat.LogFile = CleanLog;
+            frmChat.ChatFont = ChatFont;
+            frmChat.Color = Forecolor;
+            frmChat.BackColor = Backcolor;
             frmChat.Show();
         }
 
         private void btnFont_Click(object sender, EventArgs e)
         {
-            chatfontdialog.Font = chatfont;
-            chatfontdialog.ShowDialog();
-            chatfont = chatfontdialog.Font;
-            txtFont.Text = chatfont.Name + ", " + Math.Round(chatfont.Size).ToString();
-            CLC.Default.Font = chatfont;
+            ChatFontDialog.Font = ChatFont;
+            ChatFontDialog.ShowDialog();
+            ChatFont = ChatFontDialog.Font;
+            txtFont.Text = ChatFont.Name + ", " + Math.Round(ChatFont.Size).ToString();
+            CLC.Default.Font = ChatFont;
             CLC.Default.Save();
         }
 
         private void btnForecolor_Click(object sender, EventArgs e)
         {
-            forecolordialog.ShowDialog();
-            forecolor = forecolordialog.Color;
-            pnlForecolor.BackColor = forecolor;
-            CLC.Default.Forecolor = forecolor;
+            ForecolorDialog.ShowDialog();
+            Forecolor = ForecolorDialog.Color;
+            pnlForecolor.BackColor = Forecolor;
+            CLC.Default.Forecolor = Forecolor;
             CLC.Default.Save();
         }
 
         private void btnBackcolor_Click(object sender, EventArgs e)
         {
-            backcolordialog.ShowDialog();
-            backcolor = backcolordialog.Color;
-            pnlBackcolor.BackColor = backcolor;
-            CLC.Default.Backcolor = backcolor;
+            BackcolorDialog.ShowDialog();
+            Backcolor = BackcolorDialog.Color;
+            pnlBackcolor.BackColor = Backcolor;
+            CLC.Default.Backcolor = Backcolor;
             CLC.Default.Save();
         }
 
         private void LogCleaned_FileOK(object sender, CancelEventArgs e)
         {
-            cleanlog = LogCleaned.FileName;
-            if (!File.Exists(cleanlog))
+            CleanLog = CleanLogDialog.FileName;
+            if (!File.Exists(CleanLog))
             {
-                File.Create(cleanlog);
+                File.Create(CleanLog);
             }
 
-            if ((File.Exists(cleanlog) && (File.Exists(viewerlog))))
+            if ((File.Exists(CleanLog) && (File.Exists(ViewerLog))))
             {
                 btnStartStop.Enabled = true;
             }
@@ -204,30 +199,22 @@ namespace ChatLogCleaner
 
         private void LogTarget_FileOK(object sender, CancelEventArgs e)
         {
-            //Console.WriteLine("FileOK");
-            viewerlog = LogTarget.FileName;
-            if ((File.Exists(cleanlog) && (File.Exists(viewerlog))))
+            ViewerLog = ViewerLogDialog.FileName;
+            if ((File.Exists(CleanLog) && (File.Exists(ViewerLog))))
             {
                 btnStartStop.Enabled = true;
             }
         }
 
-        private void watcher_OnChanged(object source, FileSystemEventArgs e)
+        private void FileWatcher_OnChanged(object source, FileSystemEventArgs e)
         {
-            //Console.WriteLine("File: " + e.FullPath + " " + e.ChangeType);
-            //CleanLogLine(txtLogTargetPath.Text, txtLogCleanedPath.Text);
-
-            newSize = new FileInfo(viewerlog).Length;
-            //Console.WriteLine(String.Format("newSize: {0} previousSize: {1}", newSize, previousSize));
-
-            if (newSize > previousSize)
+            NewSize = new FileInfo(ViewerLog).Length;
+            
+            if (NewSize > PreviousSize)
             {
-                //Console.WriteLine("Bigger by: " + (newSize - previousSize).ToString() + "bytes.");
-
-                string text = ReadTail(viewerlog, (int)(newSize - previousSize));
-                //Console.WriteLine("text: " + text);
-                CleanLogLines(text, cleanlog);
-                previousSize = newSize;
+                string text = ReadTail(ViewerLog, (int)(NewSize - PreviousSize));
+                CleanLogLines(text, CleanLog);
+                PreviousSize = NewSize;
             }
         }
 
@@ -244,11 +231,11 @@ namespace ChatLogCleaner
 
         private void CleanLogLines(string text, string filecleaned)
         {
-            string[] lines = text.Split('\n');
-            foreach (string s in lines)
+            string[] Lines = text.Split('\n');
+            foreach (string s in Lines)
             {
                 if (s.Trim() == String.Empty) continue;
-                //Console.WriteLine("LineParse: " + LineParse(s));
+
                 using (StreamWriter sw = File.AppendText(filecleaned))
                 {
                     sw.WriteLine(LineParse(s));
@@ -258,11 +245,11 @@ namespace ChatLogCleaner
 
         private string LineParse(string line)
         {
-            string tstamp = String.Empty;
-            string username = String.Empty;
-            string hgaddress = String.Empty;
-            string message = String.Empty;
-            string cleanline = String.Empty;
+            string TimeStamp = String.Empty;
+            string UserName = String.Empty;
+            string HGAddress = String.Empty;
+            string Message = String.Empty;
+            string CleanLine = String.Empty;
 
             line = line.TrimEnd();
             if (line == String.Empty) return String.Empty;
@@ -274,81 +261,76 @@ namespace ChatLogCleaner
                 return line.Trim();
             }
 
-            char[] delims = { ':' };
-            string[] half = line.Substring(20).Split(delims, 2);
-            //Console.WriteLine(half.Length.ToString());
-            if (half.Length <= 1) return String.Empty;
+            char[] Delimiters = { ':' };
+            string[] Half = line.Substring(20).Split(Delimiters, 2);
+            if (Half.Length <= 1) return String.Empty;
 
             //We need special handling for HG names.
-            //Console.WriteLine("half[1]: " + half[0]);
-            string[] hgtest = half[0].Split(' ');
-            if (hgtest.Length > 1)
+            string[] HGTest = Half[0].Split(' ');
+            if (HGTest.Length > 1)
             {
-                if (hgtest[1].Contains('@'))
+                if (HGTest[1].Contains('@'))
                 {
-                    //Console.WriteLine("HG name detected: " + hgtest[1]);
-                    string[] hg = line.Substring(20).Split(delims, 3);
-                    //Console.WriteLine("1 " + hg[0]);
-                    //Console.WriteLine("2 " + hg[1]);
-                    if (hg.Length == 3) Console.WriteLine("3 " + hg[2]);
-                    username = hg[0].Split(' ')[0];
+                    string[] hg = line.Substring(20).Split(Delimiters, 3);
+                    
+                    UserName = hg[0].Split(' ')[0];
                     if (hg.Length == 3)
                     {
                         // This address has a port number.
-                        hgaddress = hg[0].Split(' ')[1].TrimStart('@') + ":" + hg[1];
-                        message = hg[2].Trim();
+                        HGAddress = hg[0].Split(' ')[1].TrimStart('@') + ":" + hg[1];
+                        Message = hg[2].Trim();
                     }
                     else
                     {
                         // This address has no port number.
-                        hgaddress = hg[0].Split(' ')[1].TrimStart('@');
-                        message = hg[1].Trim();
+                        HGAddress = hg[0].Split(' ')[1].TrimStart('@');
+                        Message = hg[1].Trim();
                     }
                 }
                 else
                 {
                     // This wasn't from an HG visitor.
-                    username = half[0].Trim();
-                    message = half[1].Trim();
+                    UserName = Half[0].Trim();
+                    Message = Half[1].Trim();
                 }
             }
 
             // skip grid messages, on/offline notices, and server version shouts.
-            Console.WriteLine(half[0] + half[1]);
-            if (message == "is online.") return String.Empty;
-            if (message == "is offline.") return String.Empty;
-            if (username.Contains("Simulator Version")) return String.Empty;
-            if (username == "Grid") return String.Empty;
+            Console.WriteLine(Half[0] + Half[1]);
+            if (Message == "is online.") return String.Empty;
+            if (Message == "is offline.") return String.Empty;
+            if (UserName.Contains("Simulator Version")) return String.Empty;
+            if (UserName == "Grid") return String.Empty;
 
             // Reformat timestamps.
-            tstamp = "[" + line.Substring(12, 6);
+            TimeStamp = "[" + line.Substring(12, 6);
 
             // Look for emotes.
-            if ((message.Length > 3) && (message.Substring(0, 3) == "/me"))
+            if ((Message.Length > 3) && (Message.Substring(0, 3) == "/me"))
             {
-                message = message.Substring(4, message.Length - 4);
-                if (hgaddress == String.Empty)
+                Message = Message.Substring(4, Message.Length - 4);
+                if (HGAddress == String.Empty)
                 {
-                    cleanline = "───\n" + tstamp + " " + username + " " + message;
+                    CleanLine = "───\n" + TimeStamp + " " + UserName + " " + Message;
                 }
                 else
                 {
-                    cleanline = "───\n" + tstamp + " " + username + "@" + hgaddress + " " + message;
+                    CleanLine = "───\n" + TimeStamp + " " + UserName + "@" + HGAddress + " " + Message;
                 }
             }
             else
             {
-                if (hgaddress == String.Empty)
+                if (HGAddress == String.Empty)
                 {
-                    cleanline = "───\n" + tstamp + " <" + username + ">\n" + message;
+                    CleanLine = "───\n" + TimeStamp + " <" + UserName + ">\n" + Message;
                 }
                 else
                 {
-                    cleanline = "───\n" + tstamp + " <" + username + ">\n" + "(" + hgaddress + ")\n" + message;
+                    CleanLine = "───\n" + TimeStamp + " <" + UserName + ">\n" + "(" + HGAddress + ")\n" + Message;
                 }
             }
 
-            return cleanline;
+            return CleanLine;
         }
     }
 }

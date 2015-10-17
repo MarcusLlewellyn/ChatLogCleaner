@@ -31,10 +31,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.lblLogTarget = new System.Windows.Forms.Label();
             this.txtLogTargetPath = new System.Windows.Forms.TextBox();
-            this.btnLogTargetBrowse = new System.Windows.Forms.Button();
+            this.btnViewerLogBrowse = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.btnLogCleaanedBrowse = new System.Windows.Forms.Button();
+            this.btnCleanLogBrowse = new System.Windows.Forms.Button();
             this.txtLogCleanedPath = new System.Windows.Forms.TextBox();
             this.btnStartStop = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -54,6 +54,7 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.txtFont = new System.Windows.Forms.TextBox();
             this.btnFont = new System.Windows.Forms.Button();
+            this.chkPreloadChat = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -85,27 +86,27 @@
             this.txtLogTargetPath.TabIndex = 1;
             this.txtLogTargetPath.Text = "C:\\Users\\mikey\\AppData\\Roaming\\Alchemy\\marcus_llewellyn.osgrid\\chat.txt";
             // 
-            // btnLogTargetBrowse
+            // btnViewerLogBrowse
             // 
-            this.btnLogTargetBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnLogTargetBrowse.Location = new System.Drawing.Point(293, 37);
-            this.btnLogTargetBrowse.Margin = new System.Windows.Forms.Padding(4);
-            this.btnLogTargetBrowse.Name = "btnLogTargetBrowse";
-            this.btnLogTargetBrowse.Size = new System.Drawing.Size(100, 28);
-            this.btnLogTargetBrowse.TabIndex = 2;
-            this.btnLogTargetBrowse.Text = "Browse...";
-            this.btnLogTargetBrowse.UseVisualStyleBackColor = true;
-            this.btnLogTargetBrowse.Click += new System.EventHandler(this.button1_Click);
+            this.btnViewerLogBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnViewerLogBrowse.Location = new System.Drawing.Point(293, 37);
+            this.btnViewerLogBrowse.Margin = new System.Windows.Forms.Padding(4);
+            this.btnViewerLogBrowse.Name = "btnViewerLogBrowse";
+            this.btnViewerLogBrowse.Size = new System.Drawing.Size(100, 28);
+            this.btnViewerLogBrowse.TabIndex = 2;
+            this.btnViewerLogBrowse.Text = "Browse...";
+            this.btnViewerLogBrowse.UseVisualStyleBackColor = true;
+            this.btnViewerLogBrowse.Click += new System.EventHandler(this.btnViewerLogBrowse_Click);
             // 
             // groupBox1
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.btnLogCleaanedBrowse);
+            this.groupBox1.Controls.Add(this.btnCleanLogBrowse);
             this.groupBox1.Controls.Add(this.txtLogCleanedPath);
             this.groupBox1.Controls.Add(this.lblLogTarget);
-            this.groupBox1.Controls.Add(this.btnLogTargetBrowse);
+            this.groupBox1.Controls.Add(this.btnViewerLogBrowse);
             this.groupBox1.Controls.Add(this.txtLogTargetPath);
             this.groupBox1.Location = new System.Drawing.Point(7, 7);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
@@ -126,17 +127,17 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "Cleaned Log";
             // 
-            // btnLogCleaanedBrowse
+            // btnCleanLogBrowse
             // 
-            this.btnLogCleaanedBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnLogCleaanedBrowse.Location = new System.Drawing.Point(293, 79);
-            this.btnLogCleaanedBrowse.Margin = new System.Windows.Forms.Padding(4);
-            this.btnLogCleaanedBrowse.Name = "btnLogCleaanedBrowse";
-            this.btnLogCleaanedBrowse.Size = new System.Drawing.Size(100, 28);
-            this.btnLogCleaanedBrowse.TabIndex = 5;
-            this.btnLogCleaanedBrowse.Text = "Browse...";
-            this.btnLogCleaanedBrowse.UseVisualStyleBackColor = true;
-            this.btnLogCleaanedBrowse.Click += new System.EventHandler(this.button1_Click_1);
+            this.btnCleanLogBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCleanLogBrowse.Location = new System.Drawing.Point(293, 79);
+            this.btnCleanLogBrowse.Margin = new System.Windows.Forms.Padding(4);
+            this.btnCleanLogBrowse.Name = "btnCleanLogBrowse";
+            this.btnCleanLogBrowse.Size = new System.Drawing.Size(100, 28);
+            this.btnCleanLogBrowse.TabIndex = 5;
+            this.btnCleanLogBrowse.Text = "Browse...";
+            this.btnCleanLogBrowse.UseVisualStyleBackColor = true;
+            this.btnCleanLogBrowse.Click += new System.EventHandler(this.btnCleanLogBrowse_Click);
             // 
             // txtLogCleanedPath
             // 
@@ -167,12 +168,13 @@
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.chkPreloadChat);
             this.groupBox2.Controls.Add(this.chkEmptyLog);
             this.groupBox2.Location = new System.Drawing.Point(7, 144);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox2.Size = new System.Drawing.Size(401, 64);
+            this.groupBox2.Size = new System.Drawing.Size(401, 96);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Options";
@@ -210,7 +212,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(425, 251);
+            this.tabControl1.Size = new System.Drawing.Size(425, 283);
             this.tabControl1.TabIndex = 7;
             // 
             // tabMain
@@ -220,7 +222,7 @@
             this.tabMain.Location = new System.Drawing.Point(4, 25);
             this.tabMain.Name = "tabMain";
             this.tabMain.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMain.Size = new System.Drawing.Size(417, 222);
+            this.tabMain.Size = new System.Drawing.Size(417, 254);
             this.tabMain.TabIndex = 0;
             this.tabMain.Text = "Main";
             this.tabMain.UseVisualStyleBackColor = true;
@@ -232,7 +234,7 @@
             this.tabLogOptions.Location = new System.Drawing.Point(4, 25);
             this.tabLogOptions.Name = "tabLogOptions";
             this.tabLogOptions.Padding = new System.Windows.Forms.Padding(3);
-            this.tabLogOptions.Size = new System.Drawing.Size(417, 222);
+            this.tabLogOptions.Size = new System.Drawing.Size(417, 254);
             this.tabLogOptions.TabIndex = 1;
             this.tabLogOptions.Text = "Log Options";
             this.tabLogOptions.UseVisualStyleBackColor = true;
@@ -355,11 +357,21 @@
             this.btnFont.UseVisualStyleBackColor = true;
             this.btnFont.Click += new System.EventHandler(this.btnFont_Click);
             // 
+            // chkPreloadChat
+            // 
+            this.chkPreloadChat.AutoSize = true;
+            this.chkPreloadChat.Location = new System.Drawing.Point(16, 56);
+            this.chkPreloadChat.Name = "chkPreloadChat";
+            this.chkPreloadChat.Size = new System.Drawing.Size(239, 21);
+            this.chkPreloadChat.TabIndex = 2;
+            this.chkPreloadChat.Text = "Populate with existing log content";
+            this.chkPreloadChat.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(425, 251);
+            this.ClientSize = new System.Drawing.Size(425, 283);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -386,10 +398,10 @@
 
         private System.Windows.Forms.Label lblLogTarget;
         private System.Windows.Forms.TextBox txtLogTargetPath;
-        private System.Windows.Forms.Button btnLogTargetBrowse;
+        private System.Windows.Forms.Button btnViewerLogBrowse;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnLogCleaanedBrowse;
+        private System.Windows.Forms.Button btnCleanLogBrowse;
         private System.Windows.Forms.TextBox txtLogCleanedPath;
         private System.Windows.Forms.Button btnStartStop;
         private System.Windows.Forms.GroupBox groupBox2;
@@ -409,6 +421,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.CheckBox chkPreloadChat;
     }
 }
 

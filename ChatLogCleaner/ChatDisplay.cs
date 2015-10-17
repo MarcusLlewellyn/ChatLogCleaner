@@ -41,11 +41,11 @@ namespace ChatLogCleaner
 {
     public partial class ChatDisplay : Form
     {
-        private long previousSize = 0;
-        private long newSize = 0;
-        private int buffersize = 128;
-        private CircularBuffer<string> chatbuffer = new CircularBuffer<string>();
-        private FileSystemWatcher watcher = new FileSystemWatcher();
+        private long PreviousSize = 0;
+        private long NewSize = 0;
+        private int BufferSize = 128;
+        private CircularBuffer<string> ChatBuffer = new CircularBuffer<string>();
+        private FileSystemWatcher FileWatcher = new FileSystemWatcher();
         private Font _chatfont = null;
         private Color _forecolor = new Color();
         private Color _backcolor = new Color();
@@ -89,14 +89,14 @@ namespace ChatLogCleaner
             }
 
             this.Size = CLC.Default.ChatSize;
-            chatbuffer.Size = buffersize;
+            ChatBuffer.Size = BufferSize;
 
-            watcher.Path = Path.GetDirectoryName(_logfile);
-            watcher.Filter = Path.GetFileName(_logfile);
-            watcher.NotifyFilter = NotifyFilters.Size;
-            watcher.Changed += new FileSystemEventHandler(watcher_OnChanged);
-            watcher.EnableRaisingEvents = true;
-            previousSize = new FileInfo(_logfile).Length;
+            FileWatcher.Path = Path.GetDirectoryName(_logfile);
+            FileWatcher.Filter = Path.GetFileName(_logfile);
+            FileWatcher.NotifyFilter = NotifyFilters.Size;
+            FileWatcher.Changed += new FileSystemEventHandler(FileWatcher_OnChanged);
+            FileWatcher.EnableRaisingEvents = true;
+            PreviousSize = new FileInfo(_logfile).Length;
         }
 
         private void ChatDisplay_Paint(object sender, PaintEventArgs e)
@@ -114,31 +114,31 @@ namespace ChatLogCleaner
             Console.WriteLine(this.Size.Width.ToString() + " " + this.Size.Height.ToString());
         }
 
-        private void watcher_OnChanged(object source, FileSystemEventArgs e)
+        private void FileWatcher_OnChanged(object source, FileSystemEventArgs e)
         {
-            newSize = new FileInfo(_logfile).Length;
+            NewSize = new FileInfo(_logfile).Length;
 
-            if (newSize > previousSize)
+            if (NewSize > PreviousSize)
             {
-                string text = ReadTail(_logfile, (int)(newSize - previousSize));
+                string text = ReadTail(_logfile, (int)(NewSize - PreviousSize));
                 Console.WriteLine("Queue: " + text);
-                chatbuffer.Enqueue(text);
+                ChatBuffer.Enqueue(text);
                 DrawTextBuffer();
-                previousSize = newSize;
+                PreviousSize = NewSize;
             }
         }
 
         public void DrawTextBuffer() // Control control, Font font)
         {
-            if (chatbuffer == null) { return; }
-            if (chatbuffer.Count == 0) { return; }
+            if (ChatBuffer == null) { return; }
+            if (ChatBuffer.Count == 0) { return; }
 
-            string[] arraybuffer = chatbuffer.ToArray();
+            string[] ArrayBuffer = ChatBuffer.ToArray();
             string text = string.Empty;
-            int i = chatbuffer.Count - 1;
+            int i = ChatBuffer.Count - 1;
             SizeF tempsize = new SizeF();
 
-            Rectangle rect = this.ClientRectangle;
+            Rectangle FormRect = this.ClientRectangle;
             BufferedGraphicsContext currentcontext = BufferedGraphicsManager.Current;
             BufferedGraphics controlbuffer = currentcontext.Allocate(this.CreateGraphics(), this.DisplayRectangle);
 
@@ -146,21 +146,21 @@ namespace ChatLogCleaner
 
             do
             {
-                text = arraybuffer[i] + text;
-                tempsize = controlbuffer.Graphics.MeasureString(text, this.ChatFont, rect.Size.Width, new StringFormat(StringFormat.GenericTypographic));
+                text = ArrayBuffer[i] + text;
+                tempsize = controlbuffer.Graphics.MeasureString(text, this.ChatFont, FormRect.Size.Width, new StringFormat(StringFormat.GenericTypographic));
                 i--;
             }
-            while ((rect.Size.Height > tempsize.Height) && (i >= 0));
+            while ((FormRect.Size.Height > tempsize.Height) && (i >= 0));
 
-            SizeF textsize = controlbuffer.Graphics.MeasureString(text, this.ChatFont, rect.Size.Width, new StringFormat(StringFormat.GenericTypographic));
+            SizeF textsize = controlbuffer.Graphics.MeasureString(text, this.ChatFont, FormRect.Size.Width, new StringFormat(StringFormat.GenericTypographic));
 
-            if (textsize.Height > rect.Height)
+            if (textsize.Height > FormRect.Height)
             {
-                rect.Y = rect.Height - (int)textsize.Height;
-                rect.Height += -(rect.Y);
+                FormRect.Y = FormRect.Height - (int)textsize.Height;
+                FormRect.Height += -(FormRect.Y);
             }
 
-            controlbuffer.Graphics.DrawString(text, this.ChatFont, new SolidBrush(this.Color), rect);
+            controlbuffer.Graphics.DrawString(text, this.ChatFont, new SolidBrush(this.Color), FormRect);
             controlbuffer.Render();
 
             controlbuffer.Dispose();
