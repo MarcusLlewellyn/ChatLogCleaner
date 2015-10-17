@@ -81,14 +81,14 @@
             this.txtLogTargetPath.Location = new System.Drawing.Point(109, 37);
             this.txtLogTargetPath.Margin = new System.Windows.Forms.Padding(4);
             this.txtLogTargetPath.Name = "txtLogTargetPath";
-            this.txtLogTargetPath.Size = new System.Drawing.Size(64, 22);
+            this.txtLogTargetPath.Size = new System.Drawing.Size(162, 22);
             this.txtLogTargetPath.TabIndex = 1;
             this.txtLogTargetPath.Text = "C:\\Users\\mikey\\AppData\\Roaming\\Alchemy\\marcus_llewellyn.osgrid\\chat.txt";
             // 
             // btnLogTargetBrowse
             // 
             this.btnLogTargetBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnLogTargetBrowse.Location = new System.Drawing.Point(195, 37);
+            this.btnLogTargetBrowse.Location = new System.Drawing.Point(293, 37);
             this.btnLogTargetBrowse.Margin = new System.Windows.Forms.Padding(4);
             this.btnLogTargetBrowse.Name = "btnLogTargetBrowse";
             this.btnLogTargetBrowse.Size = new System.Drawing.Size(100, 28);
@@ -111,7 +111,7 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(303, 129);
+            this.groupBox1.Size = new System.Drawing.Size(401, 129);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Chat Log Paths";
@@ -129,7 +129,7 @@
             // btnLogCleaanedBrowse
             // 
             this.btnLogCleaanedBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnLogCleaanedBrowse.Location = new System.Drawing.Point(195, 79);
+            this.btnLogCleaanedBrowse.Location = new System.Drawing.Point(293, 79);
             this.btnLogCleaanedBrowse.Margin = new System.Windows.Forms.Padding(4);
             this.btnLogCleaanedBrowse.Name = "btnLogCleaanedBrowse";
             this.btnLogCleaanedBrowse.Size = new System.Drawing.Size(100, 28);
@@ -145,7 +145,7 @@
             this.txtLogCleanedPath.Location = new System.Drawing.Point(109, 79);
             this.txtLogCleanedPath.Margin = new System.Windows.Forms.Padding(4);
             this.txtLogCleanedPath.Name = "txtLogCleanedPath";
-            this.txtLogCleanedPath.Size = new System.Drawing.Size(64, 22);
+            this.txtLogCleanedPath.Size = new System.Drawing.Size(162, 22);
             this.txtLogCleanedPath.TabIndex = 4;
             this.txtLogCleanedPath.Text = "C:\\temp\\cleaned.log";
             // 
@@ -157,7 +157,7 @@
             this.btnStartStop.Location = new System.Drawing.Point(7, 7);
             this.btnStartStop.Margin = new System.Windows.Forms.Padding(4);
             this.btnStartStop.Name = "btnStartStop";
-            this.btnStartStop.Size = new System.Drawing.Size(303, 54);
+            this.btnStartStop.Size = new System.Drawing.Size(401, 54);
             this.btnStartStop.TabIndex = 4;
             this.btnStartStop.Text = "Start Cleaning";
             this.btnStartStop.UseVisualStyleBackColor = true;
@@ -172,7 +172,7 @@
             this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox2.Size = new System.Drawing.Size(303, 64);
+            this.groupBox2.Size = new System.Drawing.Size(401, 64);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Options";
@@ -195,7 +195,7 @@
             this.btnShowChat.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnShowChat.Location = new System.Drawing.Point(8, 68);
             this.btnShowChat.Name = "btnShowChat";
-            this.btnShowChat.Size = new System.Drawing.Size(302, 54);
+            this.btnShowChat.Size = new System.Drawing.Size(400, 54);
             this.btnShowChat.TabIndex = 6;
             this.btnShowChat.Text = "Show Chat";
             this.btnShowChat.UseVisualStyleBackColor = true;
@@ -210,7 +210,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(327, 251);
+            this.tabControl1.Size = new System.Drawing.Size(425, 251);
             this.tabControl1.TabIndex = 7;
             // 
             // tabMain
@@ -220,7 +220,7 @@
             this.tabMain.Location = new System.Drawing.Point(4, 25);
             this.tabMain.Name = "tabMain";
             this.tabMain.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMain.Size = new System.Drawing.Size(319, 222);
+            this.tabMain.Size = new System.Drawing.Size(417, 222);
             this.tabMain.TabIndex = 0;
             this.tabMain.Text = "Main";
             this.tabMain.UseVisualStyleBackColor = true;
@@ -232,7 +232,7 @@
             this.tabLogOptions.Location = new System.Drawing.Point(4, 25);
             this.tabLogOptions.Name = "tabLogOptions";
             this.tabLogOptions.Padding = new System.Windows.Forms.Padding(3);
-            this.tabLogOptions.Size = new System.Drawing.Size(319, 222);
+            this.tabLogOptions.Size = new System.Drawing.Size(417, 222);
             this.tabLogOptions.TabIndex = 1;
             this.tabLogOptions.Text = "Log Options";
             this.tabLogOptions.UseVisualStyleBackColor = true;
@@ -243,7 +243,7 @@
             this.tabChatView.Controls.Add(this.groupBox3);
             this.tabChatView.Location = new System.Drawing.Point(4, 25);
             this.tabChatView.Name = "tabChatView";
-            this.tabChatView.Size = new System.Drawing.Size(319, 222);
+            this.tabChatView.Size = new System.Drawing.Size(417, 222);
             this.tabChatView.TabIndex = 2;
             this.tabChatView.Text = "Chat View Options";
             this.tabChatView.UseVisualStyleBackColor = true;
@@ -260,7 +260,7 @@
             this.groupBox4.Controls.Add(this.pnlBackcolor);
             this.groupBox4.Location = new System.Drawing.Point(8, 89);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(303, 100);
+            this.groupBox4.Size = new System.Drawing.Size(401, 100);
             this.groupBox4.TabIndex = 9;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Select Colors";
@@ -329,7 +329,7 @@
             this.groupBox3.Controls.Add(this.btnFont);
             this.groupBox3.Location = new System.Drawing.Point(8, 3);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(303, 80);
+            this.groupBox3.Size = new System.Drawing.Size(401, 80);
             this.groupBox3.TabIndex = 8;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Select Font";
@@ -341,13 +341,13 @@
             this.txtFont.Location = new System.Drawing.Point(19, 32);
             this.txtFont.Name = "txtFont";
             this.txtFont.ReadOnly = true;
-            this.txtFont.Size = new System.Drawing.Size(170, 22);
+            this.txtFont.Size = new System.Drawing.Size(268, 22);
             this.txtFont.TabIndex = 1;
             // 
             // btnFont
             // 
             this.btnFont.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFont.Location = new System.Drawing.Point(195, 32);
+            this.btnFont.Location = new System.Drawing.Point(293, 32);
             this.btnFont.Name = "btnFont";
             this.btnFont.Size = new System.Drawing.Size(102, 29);
             this.btnFont.TabIndex = 0;
@@ -359,7 +359,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(327, 251);
+            this.ClientSize = new System.Drawing.Size(425, 251);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
