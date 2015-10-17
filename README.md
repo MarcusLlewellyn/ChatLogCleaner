@@ -8,3 +8,6 @@ The main impetus behind this project was the latter use case. I needed a nice wa
 
 Currently, the cleaned results are logged to a file. Some livestream broadcast software will allow you to pull directly from this file, and format it as you like in your video. This program also can display the cleaned chat in a window of its own, allowing broadcast software to capture that window.
 
+## Disclaimer
+
+This is a project intended to fulfill a personal need. It is not gauranteed to be particularly polished, free from errors, or crashproof.
