@@ -1,0 +1,26 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ChatLogCleaner" GeneratedClassName="CLC">
+  <Profiles />
+  <Settings>
+    <Setting Name="Target" Type="System.String" Scope="User">
+      <Value Profile="(Default)">
+                </Value>
+    </Setting>
+    <Setting Name="Cleaned" Type="System.String" Scope="User">
+      <Value Profile="(Default)">
+                </Value>
+    </Setting>
+    <Setting Name="Font" Type="System.Drawing.Font" Scope="User">
+      <Value Profile="(Default)">Microsoft Sans Serif, 7.8pt</Value>
+    </Setting>
+    <Setting Name="Forecolor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">White</Value>
+    </Setting>
+    <Setting Name="Backcolor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Black</Value>
+    </Setting>
+    <Setting Name="ChatSize" Type="System.Drawing.Size" Scope="User">
+      <Value Profile="(Default)">250, 660</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
