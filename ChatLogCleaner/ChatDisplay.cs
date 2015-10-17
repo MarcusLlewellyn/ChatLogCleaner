@@ -32,7 +32,6 @@
 #endregion BSD License
 
 using System;
-using System.Collections;
 using System.Drawing;
 using System.IO;
 using System.Text;
@@ -42,15 +41,15 @@ namespace ChatLogCleaner
 {
     public partial class ChatDisplay : Form
     {
-        private string _logfile = string.Empty;
         private long previousSize = 0;
         private long newSize = 0;
-
-        private Queue chatbuffer = new Queue(16);
+        private int buffersize = 128;
+        private CircularBuffer<string> chatbuffer = new CircularBuffer<string>();
         private FileSystemWatcher watcher = new FileSystemWatcher();
         private Font _chatfont = null;
         private Color _forecolor = new Color();
         private Color _backcolor = new Color();
+        private string _logfile = string.Empty;
 
         public string LogFile
         {
@@ -90,6 +89,7 @@ namespace ChatLogCleaner
             }
 
             this.Size = CLC.Default.ChatSize;
+            chatbuffer.Size = buffersize;
 
             watcher.Path = Path.GetDirectoryName(_logfile);
             watcher.Filter = Path.GetFileName(_logfile);
@@ -101,7 +101,7 @@ namespace ChatLogCleaner
 
         private void ChatDisplay_Paint(object sender, PaintEventArgs e)
         {
-            RenderText(e);
+            DrawTextBuffer();
         }
 
         private void ChatDisplay_Resize(object sender, EventArgs e)
@@ -123,38 +123,48 @@ namespace ChatLogCleaner
                 string text = ReadTail(_logfile, (int)(newSize - previousSize));
                 Console.WriteLine("Queue: " + text);
                 chatbuffer.Enqueue(text);
-                try
-                {
-                    this.BeginInvoke((MethodInvoker)delegate { this.Refresh(); });
-                }
-                finally { }
-
+                DrawTextBuffer();
                 previousSize = newSize;
             }
         }
 
-        private void RenderText(PaintEventArgs e)
+        public void DrawTextBuffer() // Control control, Font font)
         {
+            if (chatbuffer == null) { return; }
+            if (chatbuffer.Count == 0) { return; }
+
+            string[] arraybuffer = chatbuffer.ToArray();
             string text = string.Empty;
+            int i = chatbuffer.Count - 1;
+            SizeF tempsize = new SizeF();
+
             Rectangle rect = this.ClientRectangle;
-            TextFormatFlags flags = TextFormatFlags.WordBreak | TextFormatFlags.Bottom;
+            BufferedGraphicsContext currentcontext = BufferedGraphicsManager.Current;
+            BufferedGraphics controlbuffer = currentcontext.Allocate(this.CreateGraphics(), this.DisplayRectangle);
 
-            foreach (string s in chatbuffer.ToArray())
+            controlbuffer.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+
+            do
             {
-                Console.WriteLine("RenderText: " + s);
-                text += s;
+                text = arraybuffer[i] + text;
+                tempsize = controlbuffer.Graphics.MeasureString(text, this.ChatFont, rect.Size.Width, new StringFormat(StringFormat.GenericTypographic));
+                i--;
             }
+            while ((rect.Size.Height > tempsize.Height) && (i >= 0));
 
-            Size size = TextRenderer.MeasureText(text, this.ChatFont, rect.Size, flags);
+            SizeF textsize = controlbuffer.Graphics.MeasureString(text, this.ChatFont, rect.Size.Width, new StringFormat(StringFormat.GenericTypographic));
 
-            if (size.Height > rect.Height)
+            if (textsize.Height > rect.Height)
             {
-                rect.Y = rect.Height - size.Height;
-                Console.WriteLine("rect.y: " + rect.Y.ToString());
+                rect.Y = rect.Height - (int)textsize.Height;
                 rect.Height += -(rect.Y);
             }
 
-            TextRenderer.DrawText(e.Graphics, text, this.ChatFont, rect, this.Color, flags);
+            controlbuffer.Graphics.DrawString(text, this.ChatFont, new SolidBrush(this.Color), rect);
+            controlbuffer.Render();
+
+            controlbuffer.Dispose();
+            currentcontext.Dispose();
         }
 
         private string ReadTail(string filename, int size)
