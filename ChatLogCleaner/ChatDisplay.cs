@@ -109,7 +109,8 @@ namespace ChatLogCleaner
             CLC.Default.ChatSize = this.Size;
             CLC.Default.Save();
 
-            this.Refresh();
+            //this.Refresh();
+            DrawTextBuffer();
 
             Console.WriteLine(this.Size.Width.ToString() + " " + this.Size.Height.ToString());
         }
