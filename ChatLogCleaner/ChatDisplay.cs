@@ -104,7 +104,7 @@ namespace ChatLogCleaner
             DrawTextBuffer();
         }
 
-        private void ChatDisplay_Resize(object sender, EventArgs e)
+        private void ChatDisplay_Layout(object sender, LayoutEventArgs e)
         {
             CLC.Default.ChatSize = this.Size;
             CLC.Default.Save();
@@ -122,42 +122,40 @@ namespace ChatLogCleaner
             if (NewSize > PreviousSize)
             {
                 string text = ReadTail(_logfile, (int)(NewSize - PreviousSize));
-                Console.WriteLine("Queue: " + text);
                 ChatBuffer.Enqueue(text);
                 DrawTextBuffer();
                 PreviousSize = NewSize;
             }
         }
 
-        public void DrawTextBuffer() // Control control, Font font)
+        public void DrawTextBuffer()
         {
             if (ChatBuffer == null) { return; }
             if (ChatBuffer.Count == 0) { return; }
 
             string[] ArrayBuffer = ChatBuffer.ToArray();
             string text = string.Empty;
-            int i = ChatBuffer.Count - 1;
-            SizeF tempsize = new SizeF();
+            int i = 0; //ChatBuffer.Count - 1;
+            SizeF textsize = new SizeF();
 
             Rectangle FormRect = this.ClientRectangle;
             BufferedGraphicsContext currentcontext = BufferedGraphicsManager.Current;
-            BufferedGraphics controlbuffer = currentcontext.Allocate(this.CreateGraphics(), this.DisplayRectangle);
+            BufferedGraphics controlbuffer = currentcontext.Allocate(this.CreateGraphics(), this.ClientRectangle);
 
-            controlbuffer.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+            controlbuffer.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
             do
             {
-                text = ArrayBuffer[i] + text;
-                tempsize = controlbuffer.Graphics.MeasureString(text, this.ChatFont, FormRect.Size.Width, new StringFormat(StringFormat.GenericTypographic));
-                i--;
+                text = text + ArrayBuffer[i];
+                i++;
             }
-            while ((FormRect.Size.Height > tempsize.Height) && (i >= 0));
+            while (i < ChatBuffer.Count);
 
-            SizeF textsize = controlbuffer.Graphics.MeasureString(text, this.ChatFont, FormRect.Size.Width, new StringFormat(StringFormat.GenericTypographic));
+            textsize = controlbuffer.Graphics.MeasureString(text, this.ChatFont, this.ClientRectangle.Width - 20, new StringFormat(StringFormat.GenericTypographic));
 
             if (textsize.Height > FormRect.Height)
             {
-                FormRect.Y = FormRect.Height - (int)textsize.Height;
+                FormRect.Y = FormRect.Height - (int)Math.Ceiling(textsize.Height);
                 FormRect.Height += -(FormRect.Y);
             }
 
@@ -178,5 +176,7 @@ namespace ChatLogCleaner
                 return Encoding.UTF8.GetString(bytes);
             }
         }
+
+
     }
 }

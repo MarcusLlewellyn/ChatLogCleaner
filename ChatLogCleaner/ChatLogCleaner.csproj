@@ -58,7 +58,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>ChatLogCleaner.Program</StartupObject>
@@ -112,7 +112,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <None Include="ChatLogCleaner.licenseheader" />
-    <None Include="ChatLogCleaner_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

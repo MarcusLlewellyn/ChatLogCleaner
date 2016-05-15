@@ -42,7 +42,7 @@
             this.Text = "ChatDisplay";
             this.Load += new System.EventHandler(this.ChatDisplay_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.ChatDisplay_Paint);
-            this.Resize += new System.EventHandler(this.ChatDisplay_Resize);
+            this.Layout += new System.Windows.Forms.LayoutEventHandler(this.ChatDisplay_Layout);
             this.ResumeLayout(false);
 
         }
