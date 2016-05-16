@@ -86,6 +86,7 @@ namespace ChatLogCleaner
             {
                 MessageBox.Show("No cleaned logfile exists yet.", "Missing Logfile", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 this.Close();
+                return;
             }
 
             this.Size = CLC.Default.ChatSize;
@@ -151,6 +152,10 @@ namespace ChatLogCleaner
             }
             while (i < ChatBuffer.Count);
 
+            // Decreasing the width of the rendering surface fixed a problem
+            // where the bottom of the text could get clipped at some window
+            // sizes. Why? Not sure. More experimentation may be a good idea,
+            // especially testing for different scene scaling settings.
             textsize = controlbuffer.Graphics.MeasureString(text, this.ChatFont, this.ClientRectangle.Width - 20, new StringFormat(StringFormat.GenericTypographic));
 
             if (textsize.Height > FormRect.Height)
@@ -176,7 +181,5 @@ namespace ChatLogCleaner
                 return Encoding.UTF8.GetString(bytes);
             }
         }
-
-
     }
 }

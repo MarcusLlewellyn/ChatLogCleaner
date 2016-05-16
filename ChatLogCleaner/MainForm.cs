@@ -138,7 +138,7 @@ namespace ChatLogCleaner
             else
             {
                 FileWatcher.EnableRaisingEvents = false;
-                btnStartStop.Text = "Start Cleanings";
+                btnStartStop.Text = "Start Cleaning";
             }
         }
 
@@ -234,11 +234,13 @@ namespace ChatLogCleaner
             string[] Lines = text.Split('\n');
             foreach (string s in Lines)
             {
-                if (s.Trim() == String.Empty) continue;
+                string parsed = LineParse(s);
+
+                if (parsed.Trim() == String.Empty) continue;
 
                 using (StreamWriter sw = File.AppendText(filecleaned))
                 {
-                    sw.WriteLine(LineParse(s));
+                    sw.WriteLine(parsed);
                 }
             }
         }
