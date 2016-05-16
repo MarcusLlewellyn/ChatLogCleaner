@@ -109,10 +109,7 @@ namespace ChatLogCleaner
         {
             CLC.Default.ChatSize = this.Size;
             CLC.Default.Save();
-
-            //this.Refresh();
             DrawTextBuffer();
-
             Console.WriteLine(this.Size.Width.ToString() + " " + this.Size.Height.ToString());
         }
 
@@ -136,7 +133,6 @@ namespace ChatLogCleaner
 
             string[] ArrayBuffer = ChatBuffer.ToArray();
             string text = string.Empty;
-            int i = 0; //ChatBuffer.Count - 1;
             SizeF textsize = new SizeF();
 
             Rectangle FormRect = this.ClientRectangle;
@@ -145,12 +141,10 @@ namespace ChatLogCleaner
 
             controlbuffer.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
-            do
+            foreach (string s in ChatBuffer)
             {
-                text = text + ArrayBuffer[i];
-                i++;
+                text += s;
             }
-            while (i < ChatBuffer.Count);
 
             // Decreasing the width of the rendering surface fixed a problem
             // where the bottom of the text could get clipped at some window
@@ -168,7 +162,7 @@ namespace ChatLogCleaner
             controlbuffer.Render();
 
             controlbuffer.Dispose();
-            currentcontext.Dispose();
+            //currentcontext.Dispose();
         }
 
         private string ReadTail(string filename, int size)
